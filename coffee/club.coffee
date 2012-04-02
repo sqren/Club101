@@ -101,25 +101,4 @@ class @Club
     if @songPlayer.current.paused is true
       @resume()
     else      
-      @pause()
-
-  domBind: ->
-    # music controller: jQueryUI button style
-    $( ".controls" ).button
-      text: false 
-      icons:
-        primary: "ui-icon-play"
-    .click => @toggleControls()
-
-    # add local files to playlist
-    $(".songUpload").change =>
-      $(".songUpload").fadeOut();
-      console.log("uploaded")
-
-      # reset playlist
-      @songPlayer.setPlaylist()
-
-      # add local songs to playlist
-      files = $(".songUpload")[0].files      
-      window.URL = window.webkitURL if (window.webkitURL)
-      @songPlayer.addToPlaylist window.URL.createObjectURL(file) for file in files       
+      @pause()       
