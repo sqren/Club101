@@ -1,83 +1,118 @@
 class Player
-  constructor: (@playlist) ->
+  constructor: (playlist = []) ->    
+    @playlist = playlist
+    @current = new Audio()
     @track_number = 0
-    @current = new Audio(@playlist[@track_number])
 
-  addToPlaylist: (file) ->
-    @playlist.push file
+  # check if unstarted
+  unstarted: ->
+    if @current.src != ""
+      return false
+    else
+      return true
 
-  #(re)set playlist
-  setPlaylist: (@playlist = []) ->
+  # add playlist
+  setPlaylist: (playlist = []) ->
+    @playlist = @playlist.concat(playlist)
 
-  start: -> 
+  resetPlaylist: ->
+    @playlist = []  
+
+  play: ->    
+    console.log "Play() " + @current.src
     @current.play()
 
-  pause: ->
-    @current.pause() if @current.paused is false      
+  pause: ->    
+    @current.pause() if @current.paused is false   
+    return this   
 
-  next: (callback) ->
-    # pause current track
-    @pause()
+  setTrack: (track) ->
+    @track_number = track
+    @current.src = @playlist[@track_number]["url"]
+    return this
 
+  incrementTrack: ->
     # restart playlist or move to next track
     if @track_number is (@playlist.length - 1)
-      @track_number = 0
+      @setTrack(0)
+      @current.src = @playlist[0]["url"]
     else
       @track_number++
+      @current.src = @playlist[@track_number]["url"]    
 
-    # define filename
-    filename = @playlist[@track_number]
+    return this
 
-    # set track source
-    @current.src = filename
+  next: (callback = null) ->
+    # pause current track, switch to next
+    @pause().incrementTrack()
 
-    # start
-    @start()
-    console.log "Changed track to: " + filename    
+    # start track when metadata loaded (duration)
+    loadMeta = setInterval (=>
+      if @current.duration > 0        
+        clearInterval(loadMeta)
+
+        # return duration with callback
+        callback(@current.duration) if callback?
+
+        # play next song
+        @play()
+    ), 50
+
+    # debugging
+    console.log "Changed track to: " + @playlist[@track_number]["title"]
 
   setVolume: (volume) ->
     console.log "Volume change to: #{volume} "
     @current.volume = volume
 
-# songplayer with specific label
+
+# songplayer with specific label ##################################################################
 class @SongPlayer extends Player
-  setLabel: (filename) ->
-    firstSlashPos = filename.indexOf("/") + 1
-    lastDotPos = filename.lastIndexOf(".")
-    filename_human = filename.substring(firstSlashPos, lastDotPos)
-    $(".current-song").html filename_human
-  next: (callback) ->
+  start: ->
+    console.log "Start()"   
+    @setTrack(0).setLabel().play()
+
+  setLabel: ->
+    $(".current-song").html @playlist[@track_number]["title"]
+    return this
+
+  next: ->
     super
-    @setLabel @playlist[@track_number]  
+    @setLabel()
+    return this
 
-# commandplayer with new implementation of next for returning duration in a callback
+  play: ->
+    super
+
+    # update UI
+    $( ".play-pause" ).button(
+      "option", "icons", primary: "ui-icon-pause"
+    )
+
+  pause: ->
+    super
+    # update UI
+    $( ".play-pause" ).button(
+      "option", "icons", primary: "ui-icon-play"
+    )
+    return this
+
+  setPlaylist: (newplaylist = []) -> 
+    super    
+    @outputPlaylist()
+
+  outputPlaylist: ->
+    # clear content in div
+    $('#playlist-dialog .playlist').html('')
+
+    # add songs to div
+    for song, i in @playlist
+      elm = $('<p></p>').html("#" + i + ": " + song['title'])
+      $(elm).addClass("current") if club.clubNumber == i
+      $('#playlist-dialog .playlist').append(elm)
+
+
 class @CommandPlayer extends Player
-  next: (callback) ->
-    # pause current track
-    @pause()
 
-    # restart playlist or move to next track
-    if @track_number is (@playlist.length - 1)
-      @track_number = 0
-    else
-      @track_number++
-
-    # define filename
-    filename = @playlist[@track_number]
-
-    # set track source
-    @current.src = filename
-
-    # preloading: wait for duration
-    preload = setInterval (=>
-      if @current.duration > 0
-        clearInterval(preload)
-
-        # return duration of command to Club()
-        callback(@current.duration)
-
-        # start next song
-        @start()
-    ), 1
 
 class @CheersPlayer extends Player

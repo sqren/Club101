@@ -1,6 +1,6 @@
 <?php
 function readFolder($folder){
-	$files = scandir($folder ."/");
+	$files = scandir($folder);
 
 	// remove ".." and "."
 	$key_parent_dir = array_search("..", $files);
@@ -10,14 +10,13 @@ function readFolder($folder){
 
 	// add folder names in front:
 	foreach ($files as $i => $file) { 
+	    $files[$i] = array("url"=>$folder . $file); 
+	}
 
-	    $files[$i] = $folder . "/" . $file; 
-	}	
-
-	// randomixe
+	// randomize
 	shuffle($files);
 	
-	// output in json
+	// return json map
 	return json_encode($files);
 }
 ?>

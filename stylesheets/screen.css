@@ -410,7 +410,14 @@ body.bp .removed {
 
 /* line 53, ../sass/screen.sass */
 .progress-bar {
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -o-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -khtml-border-radius: 5px;
+  border-radius: 5px;
   box-sizing: border-box;
+  border: 2px solid #cccccc;
   display: inline;
   float: left;
   margin-right: 0;
@@ -424,13 +431,22 @@ body.bp .removed {
 * html .progress-bar {
   overflow-x: hidden;
 }
-/* line 62, ../sass/screen.sass */
-.progress-bar .controls {
+/* line 63, ../sass/screen.sass */
+.progress-bar .controller-container {
+  position: absolute;
   height: 25px;
   margin: 10px;
   z-index: 2;
 }
-/* line 67, ../sass/screen.sass */
+/* line 68, ../sass/screen.sass */
+.progress-bar .controller-container .play-pause, .progress-bar .controller-container .view-playlist {
+  height: 25px;
+  display: none;
+  line-height: 25px;
+  margin-right: 10px;
+  float: left;
+}
+/* line 75, ../sass/screen.sass */
 .progress-bar .progress-bar-inside {
   background: -webkit-gradient(linear, 0% 50%, 100% 50%, color-stop(0%, #84a5c2), color-stop(100%, #37648c));
   background: -webkit-linear-gradient(left, #84a5c2, #37648c);
@@ -450,16 +466,8 @@ body.bp .removed {
   top: 0;
   left: 0;
   z-index: 1;
-  -moz-transition-property: width;
-  -webkit-transition-property: width;
-  -o-transition-property: width;
-  transition-property: width;
-  -moz-transition-duration: 1s;
-  -webkit-transition-duration: 1s;
-  -o-transition-duration: 1s;
-  transition-duration: 1s;
 }
-/* line 78, ../sass/screen.sass */
+/* line 86, ../sass/screen.sass */
 .progress-bar .timer-seconds {
   display: inline;
   float: left;
@@ -482,27 +490,28 @@ body.bp .removed {
 * html .progress-bar .timer-seconds {
   overflow-x: hidden;
 }
-/* line 93, ../sass/screen.sass */
-.progress-bar .songUpload {
-  position: absolute;
-  bottom: 0px;
-  margin: 10px;
-  width: 90px;
-  z-index: 2;
-}
 
-/* line 100, ../sass/screen.sass */
+/* line 101, ../sass/screen.sass */
 .club-number, .current-song {
   color: #666666;
   font-size: 2em;
 }
 
-/* line 104, ../sass/screen.sass */
+/* line 105, ../sass/screen.sass */
 .club-number {
   float: left;
 }
 
-/* line 107, ../sass/screen.sass */
+/* line 108, ../sass/screen.sass */
 .current-song {
   float: right;
+}
+
+/* line 111, ../sass/screen.sass */
+#playlist-dialog {
+  display: none;
+}
+/* line 114, ../sass/screen.sass */
+#playlist-dialog .playlist .current {
+  font-weight: bold;
 }

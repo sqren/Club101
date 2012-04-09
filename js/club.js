@@ -2,37 +2,46 @@
 
   this.Club = (function() {
 
-    function Club(songs, commands, cheers) {
+    function Club() {
       var _this = this;
       this.commandProbability = 0.3;
       this.secondsPerClub = 60;
       this.clubNumber = 0;
       this.setTimerSeconds(this.secondsPerClub);
-      this.songPlayer = new SongPlayer(songs);
-      this.commandPlayer = new CommandPlayer(commands);
-      this.cheersPlayer = new CheersPlayer(cheers);
-      this.domBind();
+      this.decoderCount = 0;
       setInterval((function() {
-        if (_this.songPlayer.current.paused) return false;
+        if (songPlayer.current.paused) return false;
+        if (songPlayer.current.webkitAudioDecodedByteCount === _this.webkitAudioDecodedByteCount && songPlayer.current.webkitAudioDecodedByteCount < 50000) {
+          console.log("Problem loading audio: " + songPlayer.current.webkitAudioDecodedByteCount);
+          _this.decoderCount++;
+          if (_this.decoderCount >= 5) {
+            _this.decoderCount = 0;
+            console.log("--- Restarting file ---");
+            songPlayer.pause().play();
+          }
+        }
+        _this.webkitAudioDecodedByteCount = songPlayer.current.webkitAudioDecodedByteCount;
         if (_this.clubNumber > 100) {
-          $(".controls").button("disable");
+          $(".play-pause").button("disable");
           _this.pause();
           alert("Er du fuld nu?");
         }
         _this.decrementSecond();
-        if (_this.timerSeconds === 1) _this.cheersPlayer.next();
+        if (_this.timerSeconds === 1) cheersPlayer.next();
         if (_this.timerSeconds === 0) {
-          _this.songPlayer.next();
+          _this.decoderCount = 0;
+          songPlayer.next();
           _this.setTimerSeconds(_this.secondsPerClub);
           _this.setCommand();
           _this.incrementClubNumber();
         }
         if (_this.timerSeconds === _this.commandSecond && _this.commandSecond > 0) {
-          _this.songPlayer.setVolume(0.2);
-          return _this.commandPlayer.next(function(duration) {
+          return commandPlayer.next(function(duration, url) {
+            songPlayer.setVolume(0.2);
+            commandPlayer.play(url);
             return setTimeout((function() {
-              _this.songPlayer.setVolume(1);
-              return _this.commandPlayer.pause();
+              songPlayer.setVolume(1);
+              return commandPlayer.pause();
             }), duration * 1000);
           });
         }
@@ -70,58 +79,6 @@
         this.commandSecond = 0;
         return console.log("Command will NOT be played");
       }
-    };
-
-    Club.prototype.resume = function() {
-      $(".controls").button({
-        icons: {
-          primary: "ui-icon-pause"
-        }
-      });
-      return this.songPlayer.start();
-    };
-
-    Club.prototype.pause = function() {
-      $(".controls").button({
-        icons: {
-          primary: "ui-icon-play"
-        }
-      });
-      return this.songPlayer.pause();
-    };
-
-    Club.prototype.toggleControls = function() {
-      if (this.songPlayer.current.paused === true) {
-        return this.resume();
-      } else {
-        return this.pause();
-      }
-    };
-
-    Club.prototype.domBind = function() {
-      var _this = this;
-      $(".controls").button({
-        text: false,
-        icons: {
-          primary: "ui-icon-play"
-        }
-      }).click(function() {
-        return _this.toggleControls();
-      });
-      return $(".songUpload").change(function() {
-        var file, files, _i, _len, _results;
-        $(".songUpload").fadeOut();
-        console.log("uploaded");
-        _this.songPlayer.setPlaylist();
-        files = $(".songUpload")[0].files;
-        if (window.webkitURL) window.URL = window.webkitURL;
-        _results = [];
-        for (_i = 0, _len = files.length; _i < _len; _i++) {
-          file = files[_i];
-          _results.push(_this.songPlayer.addToPlaylist(window.URL.createObjectURL(file)));
-        }
-        return _results;
-      });
     };
 
     return Club;

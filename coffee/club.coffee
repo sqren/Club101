@@ -1,28 +1,32 @@
 class @Club  
-  constructor: (songs, commands, cheers) ->
+  constructor: () ->
     # options
     @commandProbability = 0.3 # higher means more often commands
     @secondsPerClub = 60 # number of seconds per club
 
-    # initial setup
+    # initial setup 
     @clubNumber = 0 # the club to start from    
     @setTimerSeconds @secondsPerClub
-
-    # setup players
-    @songPlayer = new SongPlayer(songs);
-    @commandPlayer = new CommandPlayer(commands);
-    @cheersPlayer = new CheersPlayer(cheers);
-    
-    # bind functions to DOM events
-    @domBind()
+    @decoderCount = 0
 
     # countdown every second
     setInterval (=>
       
-      return false if @songPlayer.current.paused
+      return false if songPlayer.current.paused
+
+      # workaround for weird "not-playin" incident
+      if songPlayer.current.webkitAudioDecodedByteCount == @webkitAudioDecodedByteCount && songPlayer.current.webkitAudioDecodedByteCount < 50000
+        console.log "Problem loading audio: " + songPlayer.current.webkitAudioDecodedByteCount
+        @decoderCount++
+        if @decoderCount >= 5
+          @decoderCount = 0
+          console.log "--- Restarting file ---"
+          songPlayer.pause().play()
+
+      @webkitAudioDecodedByteCount = songPlayer.current.webkitAudioDecodedByteCount    
 
       if @clubNumber > 100
-        $( ".controls" ).button "disable"
+        $( ".play-pause" ).button "disable"
         @pause()
         alert "Er du fuld nu?"
 
@@ -30,27 +34,31 @@ class @Club
       @decrementSecond()
 
       # say cheers!
-      @cheersPlayer.next() if @timerSeconds is 1        
+      cheersPlayer.next() if @timerSeconds is 1        
 
       # end of song; change to next
       if @timerSeconds is 0
-        @songPlayer.next()
+        @decoderCount = 0
+        songPlayer.next()
         @setTimerSeconds @secondsPerClub
         @setCommand()
         @incrementClubNumber()
       
       # play command depending on probability
-      if @timerSeconds is @commandSecond && @commandSecond > 0
-        # decrease volume for song
-        @songPlayer.setVolume 0.2
+      if @timerSeconds is @commandSecond && @commandSecond > 0      
+        
+        commandPlayer.next( (duration, url) =>
 
-        # play command
-        @commandPlayer.next( (duration) =>
+          # decrease volume for song
+          songPlayer.setVolume 0.2
+
+          # play command
+          commandPlayer.play url
           
           # increase volume for song again and pause command
           setTimeout ( =>
-            @songPlayer.setVolume 1
-            @commandPlayer.pause()
+            songPlayer.setVolume 1
+            commandPlayer.pause()
           ), duration*1000
         )
     ), 1000
@@ -82,23 +90,3 @@ class @Club
     else
       @commandSecond = 0
       console.log "Command will NOT be played"
-
-  resume: ->
-    $( ".controls" ).button
-      icons:
-        primary: "ui-icon-pause"
-
-    @songPlayer.start()
-
-  pause: ->    
-    $( ".controls" ).button
-      icons:
-        primary: "ui-icon-play"
-
-    @songPlayer.pause()
-
-  toggleControls: ->          
-    if @songPlayer.current.paused is true
-      @resume()
-    else      
-      @pause()       
