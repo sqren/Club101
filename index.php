@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>Club 101</title>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<link rel="stylesheet" type="text/css" href="stylesheets/screen.css">
 	<link rel="stylesheet" href="stylesheets/south-street/jquery-ui-1.8.18.custom.css">	
