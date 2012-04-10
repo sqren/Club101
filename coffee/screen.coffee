@@ -1,29 +1,13 @@
 jQuery ->  
 
-  # music controller: jQueryUI button style
-  $( ".play-pause" ).button
-    text: false 
-    icons:
-      primary: "ui-icon-play"
-  .click -> 
-    # start
-    if songPlayer.unstarted()
-      songPlayer.start()
-
-    # resume
-    else if songPlayer.current.paused is true      
-      songPlayer.play()
-
-    # pause
-    else
-      songPlayer.pause()
-
   # add local files to playlist
   $(".upload-song").change =>
     # initial song upload will move upload element to dialog window
     if $(this).parent('.controller-container')
+      $('.init-app').hide();
       $(".upload-song").prependTo('#playlist-dialog');
-      $(".play-pause, .view-playlist").show();
+      $(".initially-hidden").removeClass('initially-hidden');
+      initPlayButton()
 
     # add local songs to playlist
     files = $(".upload-song")[0].files       
@@ -60,3 +44,25 @@ jQuery ->
     #       # album = dv.getString(30, dv.tell());
     #       # year = dv.getString(4, dv.tell());
     #       console.log(title);
+
+initPlayButton = ->
+  # music controller: jQueryUI button style
+  $( ".play-pause" ).button
+    text: false 
+    icons:
+      primary: "ui-icon-play"
+  .click -> 
+    # start
+    if songPlayer.unstarted()
+      songPlayer.start()
+      console.log("unstarted")
+
+    # resume
+    else if songPlayer.current.paused is true      
+      songPlayer.play()
+      console.log("resume")
+
+    # pause
+    else
+      songPlayer.pause()
+      console.log("pause")

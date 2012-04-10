@@ -1,3 +1,4 @@
+@import url(http://fonts.googleapis.com/css?family=Oxygen)
 // This import applies a global reset to any page that imports this stylesheet.
 @import blueprint/reset
 // To configure blueprint, edit the partials/base.sass file.
@@ -67,7 +68,6 @@ body.bp
     z-index: 2
     .play-pause, .view-playlist
       height: 25px
-      display: none
       line-height: 25px
       margin-right: 10px
       float: left
@@ -83,20 +83,30 @@ body.bp
     z-index: 1
     //+single-transition('width', '1s')
 
-  .timer-seconds
-    +column(10, true)
+
+  .content-inside
+    width: 100%
+    height: 100%
     color: #000
-    font-size: 10em
-    height: 1em
-    left: 50%
-    line-height: 1em
-    margin-top: -0.5em
-    margin-left: -0.75em
-    position: absolute
-    text-align: center
-    top: 50%
-    width: 1.5em
+    position: relative
     z-index: 2
+    text-align: center
+
+    .init-app      
+      width: 100%
+      margin-top: 100px
+      
+      p
+        font-size: 2em
+        font-family: 'Oxygen', sans-serif
+        margin-bottom: 0.5em
+
+      .upload-song
+        width: 95px
+
+    .timer-seconds
+      font-size: 10em
+      margin-top: 0.5em
 
 .club-number, .current-song
   color: #666
@@ -113,3 +123,7 @@ body.bp
 
   .playlist .current
     font-weight: bold
+
+// elements which are hidden until app is started
+.initially-hidden
+  display: none!important

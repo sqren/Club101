@@ -36,16 +36,21 @@
 
 		<div class="progress-bar">
 			<div class="controller-container">
-				<p class="play-pause"></p>
-				<a class="view-playlist" href="#">Se spilleliste</a>
-				<input type="file" value="upload files" class="upload-song" multiple="multiple" />				
+				<p class="play-pause initially-hidden"></p>
+				<a class="view-playlist initially-hidden" href="#">Se spilleliste</a>
 			</div>
 			<div class="progress-bar-inside"></div>
-			<p class="timer-seconds">60</p>		
+			<div class="content-inside">
+				<div class="init-app">
+					<p class="hint">Vælg 100 sange fra din computer for at starte</p>
+					<input type="file" value="upload files" class="upload-song" multiple="multiple" />
+				</div>
+				<p class="timer-seconds initially-hidden">60</p>		
+			</div>
 		</div>
 
-		<div class="club-number">Club #<span>0</span></div>
-		<div class="current-song">Introsang</div>
+		<div class="club-number initially-hidden">Club #<span>0</span></div>
+		<div class="current-song initially-hidden">&nbsp;</div>
 	</div>
 
 	<div id="playlist-dialog" title="Spilleliste">

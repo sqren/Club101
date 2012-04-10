@@ -1,26 +1,15 @@
 (function() {
+  var initPlayButton;
 
   jQuery(function() {
     var _this = this;
-    $(".play-pause").button({
-      text: false,
-      icons: {
-        primary: "ui-icon-play"
-      }
-    }).click(function() {
-      if (songPlayer.unstarted()) {
-        return songPlayer.start();
-      } else if (songPlayer.current.paused === true) {
-        return songPlayer.play();
-      } else {
-        return songPlayer.pause();
-      }
-    });
     $(".upload-song").change(function() {
       var file, files, lastDotPos, playlist, title, url, _i, _len;
       if ($(_this).parent('.controller-container')) {
+        $('.init-app').hide();
         $(".upload-song").prependTo('#playlist-dialog');
-        $(".play-pause, .view-playlist").show();
+        $(".initially-hidden").removeClass('initially-hidden');
+        initPlayButton();
       }
       files = $(".upload-song")[0].files;
       if (window.webkitURL) window.URL = window.webkitURL;
@@ -45,5 +34,25 @@
       });
     });
   });
+
+  initPlayButton = function() {
+    return $(".play-pause").button({
+      text: false,
+      icons: {
+        primary: "ui-icon-play"
+      }
+    }).click(function() {
+      if (songPlayer.unstarted()) {
+        songPlayer.start();
+        return console.log("unstarted");
+      } else if (songPlayer.current.paused === true) {
+        songPlayer.play();
+        return console.log("resume");
+      } else {
+        songPlayer.pause();
+        return console.log("pause");
+      }
+    });
+  };
 
 }).call(this);

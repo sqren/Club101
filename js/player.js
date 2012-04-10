@@ -20,9 +20,16 @@
       }
     };
 
+    Player.prototype.shuffle = function(playlist) {
+      return playlist.sort(function() {
+        return 0.5 - Math.random();
+      });
+    };
+
     Player.prototype.setPlaylist = function(playlist) {
       if (playlist == null) playlist = [];
-      return this.playlist = this.playlist.concat(playlist);
+      this.playlist = this.playlist.concat(playlist);
+      return this.playlist = this.shuffle(this.playlist);
     };
 
     Player.prototype.resetPlaylist = function() {

@@ -9,11 +9,15 @@ class Player
     if @current.src != ""
       return false
     else
-      return true
+      return true    
+
+  shuffle: (playlist) -> 
+    playlist.sort -> 0.5 - Math.random()
 
   # add playlist
-  setPlaylist: (playlist = []) ->
+  setPlaylist: (playlist = []) ->    
     @playlist = @playlist.concat(playlist)
+    @playlist = @shuffle(@playlist)
 
   resetPlaylist: ->
     @playlist = []  

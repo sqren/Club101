@@ -1,3 +1,4 @@
+@import url(http://fonts.googleapis.com/css?family=Oxygen);
 /* line 4, ../../../../../var/lib/gems/1.8/gems/compass-0.11.5/frameworks/blueprint/stylesheets/blueprint/reset/_utilities.scss */
 html {
   margin: 0;
@@ -57,7 +58,7 @@ a img {
   border: none;
 }
 
-/* line 21, ../sass/screen.sass */
+/* line 22, ../sass/screen.sass */
 body.bp {
   line-height: 1.5;
   font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
@@ -378,7 +379,7 @@ body.bp .removed {
   color: white;
 }
 
-/* line 29, ../sass/screen.sass */
+/* line 30, ../sass/screen.sass */
 .container {
   width: 920px;
   margin: 0 auto;
@@ -387,7 +388,7 @@ body.bp .removed {
   min-height: 500px;
   padding-top: 100px;
 }
-/* line 35, ../sass/screen.sass */
+/* line 36, ../sass/screen.sass */
 .container .title {
   color: #cccccc;
   font-size: 7em;
@@ -398,7 +399,7 @@ body.bp .removed {
   text-transform: uppercase;
   width: 100%;
 }
-/* line 45, ../sass/screen.sass */
+/* line 46, ../sass/screen.sass */
 .container .sub-title {
   color: #cccccc;
   font-size: 4em;
@@ -408,7 +409,7 @@ body.bp .removed {
   width: 100%;
 }
 
-/* line 53, ../sass/screen.sass */
+/* line 54, ../sass/screen.sass */
 .progress-bar {
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
@@ -431,17 +432,16 @@ body.bp .removed {
 * html .progress-bar {
   overflow-x: hidden;
 }
-/* line 63, ../sass/screen.sass */
+/* line 64, ../sass/screen.sass */
 .progress-bar .controller-container {
   position: absolute;
   height: 25px;
   margin: 10px;
   z-index: 2;
 }
-/* line 68, ../sass/screen.sass */
+/* line 69, ../sass/screen.sass */
 .progress-bar .controller-container .play-pause, .progress-bar .controller-container .view-playlist {
   height: 25px;
-  display: none;
   line-height: 25px;
   margin-right: 10px;
   float: left;
@@ -467,51 +467,62 @@ body.bp .removed {
   left: 0;
   z-index: 1;
 }
-/* line 86, ../sass/screen.sass */
-.progress-bar .timer-seconds {
-  display: inline;
-  float: left;
-  margin-right: 0;
-  width: 920px;
+/* line 87, ../sass/screen.sass */
+.progress-bar .content-inside {
+  width: 100%;
+  height: 100%;
   color: black;
-  font-size: 10em;
-  height: 1em;
-  left: 50%;
-  line-height: 1em;
-  margin-top: -0.5em;
-  margin-left: -0.75em;
-  position: absolute;
-  text-align: center;
-  top: 50%;
-  width: 1.5em;
+  position: relative;
   z-index: 2;
+  text-align: center;
 }
-/* line 147, ../../../../../var/lib/gems/1.8/gems/compass-0.11.5/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
-* html .progress-bar .timer-seconds {
-  overflow-x: hidden;
+/* line 95, ../sass/screen.sass */
+.progress-bar .content-inside .init-app {
+  width: 100%;
+  margin-top: 100px;
+}
+/* line 99, ../sass/screen.sass */
+.progress-bar .content-inside .init-app p {
+  font-size: 2em;
+  font-family: "Oxygen", sans-serif;
+  margin-bottom: 0.5em;
+}
+/* line 104, ../sass/screen.sass */
+.progress-bar .content-inside .init-app .upload-song {
+  width: 95px;
+}
+/* line 107, ../sass/screen.sass */
+.progress-bar .content-inside .timer-seconds {
+  font-size: 10em;
+  margin-top: 0.5em;
 }
 
-/* line 101, ../sass/screen.sass */
+/* line 111, ../sass/screen.sass */
 .club-number, .current-song {
   color: #666666;
   font-size: 2em;
 }
 
-/* line 105, ../sass/screen.sass */
+/* line 115, ../sass/screen.sass */
 .club-number {
   float: left;
 }
 
-/* line 108, ../sass/screen.sass */
+/* line 118, ../sass/screen.sass */
 .current-song {
   float: right;
 }
 
-/* line 111, ../sass/screen.sass */
+/* line 121, ../sass/screen.sass */
 #playlist-dialog {
   display: none;
 }
-/* line 114, ../sass/screen.sass */
+/* line 124, ../sass/screen.sass */
 #playlist-dialog .playlist .current {
   font-weight: bold;
+}
+
+/* line 128, ../sass/screen.sass */
+.initially-hidden {
+  display: none !important;
 }
