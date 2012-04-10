@@ -12,9 +12,8 @@
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<link rel="stylesheet" type="text/css" href="stylesheets/screen.css">
 	<link rel="stylesheet" href="stylesheets/south-street/jquery-ui-1.8.18.custom.css">	
-	<script src="js/jdataview.js"></script>
-	<script src="js/jquery.min.js"></script>
-	<script src="js/jquery-ui-1.8.18.custom.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
 	<script src="js/player.js"></script>	
 	<script src="js/club.js"></script>
 	<script type="text/javascript">
@@ -42,7 +41,7 @@
 			<div class="progress-bar-inside"></div>
 			<div class="content-inside">
 				<div class="init-app">
-					<p class="hint">Vælg 100 sange fra din computer for at starte</p>
+					<p class="hint">Vælg musik fra din computer for at starte</p>
 					<input type="file" value="upload files" class="upload-song" multiple="multiple" />
 				</div>
 				<p class="timer-seconds initially-hidden">60</p>		
